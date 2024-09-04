@@ -1,8 +1,14 @@
+import { useState } from "react";
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import userService from "../services/userService";
+import { toast } from "react-toastify";
 
 const Signup = () => {
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
+
   const validationSchema = Yup.object().shape({
     fullName: Yup.string().required("Full Name is Required"),
     email: Yup.string()
@@ -15,6 +21,36 @@ const Signup = () => {
       .oneOf([Yup.ref("password"), null], "Passwords must match")
       .required("Please confirm your password"),
   });
+
+  const handeSignup = async (values, { setSubmitting, resetForm }) => {
+    try {
+      const res = await userService.signup({
+        fullName: values.fullName,
+        email: values.email,
+        password: values.password,
+      });
+      if (res.success) {
+        setSuccessMessage(res.data.data.message);
+        setErrorMessage(null);
+        toast.success(res.data.data.message);
+        resetForm();
+        setSubmitting(false);
+      } else {
+        console.log(res.error.response.data.message);
+        setErrorMessage(res.error.response.data.message);
+        toast.error(res.error.response.data.message);
+        setSubmitting(false);
+        setSuccessMessage(null);
+        resetForm();
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+      setSubmitting(false);
+      setSuccessMessage(null);
+      resetForm();
+    }
+  };
 
   return (
     <div className="container mt-5">
@@ -31,10 +67,7 @@ const Signup = () => {
               confirmPassword: "",
             }}
             validationSchema={validationSchema}
-            onSubmit={(values) => {
-              // Handle form submission
-              console.log(values);
-            }}
+            onSubmit={handeSignup}
           >
             {({ isSubmitting }) => (
               <Form>
@@ -68,6 +101,7 @@ const Signup = () => {
                     name="password"
                     type="password"
                     className="form-control"
+                    autoComplete="off"
                   />
                   <ErrorMessage
                     name="password"
@@ -83,6 +117,7 @@ const Signup = () => {
                     name="confirmPassword"
                     type="password"
                     className="form-control"
+                    autoComplete="off"
                   />
                   <ErrorMessage
                     name="confirmPassword"
@@ -90,14 +125,25 @@ const Signup = () => {
                     className="text-danger"
                   />
                 </div>
+                {/* message */}
+                {errorMessage && (
+                  <div className="alert alert-danger" role="alert">
+                    {errorMessage}
+                  </div>
+                )}
+                {successMessage && (
+                  <div className="alert alert-success" role="alert">
+                    {successMessage}
+                  </div>
+                )}
                 <button
                   type="submit"
                   className="btn btn-primary w-100"
                   style={{ backgroundColor: "#2B8C72", borderColor: "#2B8C72" }}
                 >
-                  Signup
+                  Signup &nbsp;
                   <i className="bi bi-arrow-right"></i>
-                  {/* Loading */}
+                  {/* Loading */} &nbsp;
                   {isSubmitting && (
                     <span
                       className="spinner-border spinner-border-sm"

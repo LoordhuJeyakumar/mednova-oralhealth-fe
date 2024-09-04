@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import { toast } from "react-toastify";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import userService from "../services/userService";
 
 function VerifyEmailPage() {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ function VerifyEmailPage() {
   const { id, token } = params;
 
   useEffect(() => {
-    //verifyEmailToken();
+    verifyEmailToken();
   }, [params]);
 
   async function verifyEmailToken() {
@@ -24,7 +25,7 @@ function VerifyEmailPage() {
     }
 
     try {
-      const res = await verifyEmail(id, token);
+      const res = await userService.verify(token, id);
       if (res.success) {
         toast.success(res.data.data.message);
         setErrorMessage("");

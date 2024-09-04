@@ -16,10 +16,7 @@ function AppRoutes() {
         <Route element={<PublicLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
-          <Route
-            path="/verify-email/:id/:token"
-            element={<VerifyEmailPage />}
-          />
+          <Route path="user/:id/:token" element={<VerifyEmailPage />} />
         </Route>
         <Route element={<DashboardLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
