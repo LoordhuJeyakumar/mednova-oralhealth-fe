@@ -20,6 +20,10 @@ const userService = {
         "user/login",
         userData
       );
+      if (response.status === 200) {
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("user", JSON.stringify(response.data));
+      }
       return { success: true, data: response };
     } catch (error) {
       handleError(error);
@@ -41,6 +45,17 @@ const userService = {
     try {
       const response = await instanceService.protectedInstance.get(
         "user/protected-route"
+      );
+      return { success: true, data: response };
+    } catch (error) {
+      handleError(error);
+      return { success: false, error: error };
+    }
+  },
+  getUser: async () => {
+    try {
+      const response = await instanceService.protectedInstance.get(
+        "user/profile"
       );
       return { success: true, data: response };
     } catch (error) {

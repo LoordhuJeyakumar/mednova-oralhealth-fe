@@ -24,7 +24,7 @@ const protectedInstance = axios.create({
 
 // define the interceptor for the protected instance
 protectedInstance.interceptors.request.use((config) => {
-  const accessToken = localStorage.getItem("accessToken");
+  const accessToken = localStorage.getItem("token");
 
   if (accessToken) {
     config.headers.Authorization = `bearer ${accessToken}`;

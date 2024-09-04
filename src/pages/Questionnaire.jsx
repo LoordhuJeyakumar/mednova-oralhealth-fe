@@ -1,11 +1,13 @@
 // Questionnaire.js
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SideBar from "../components/SideBar";
 import Question from "../components/Question";
 import Feedback from "../components/Feedback";
+import { useAppContext } from "../context/AppProvider";
+import questionsService from "../services/questionsService";
 
 function Questionnaire() {
-  const questions = [
+  const questionsArray = [
     {
       id: 1,
       name: "Question 1",
@@ -75,14 +77,43 @@ function Questionnaire() {
     // Add more questions here...
   ];
 
-  const [activeQuestionId, setActiveQuestionId] = useState(questions[0].id);
+  const { questions, getQuestions } = useAppContext();
+
+  console.log(questions);
+  const [activeQuestionId, setActiveQuestionId] = useState(
+    questions ? questions[0]._id : null
+  );
+  console.log(activeQuestionId);
+
+  useEffect(() => {
+    fechQuestions();
+  }, []);
+
+  const fechQuestions = async () => {
+    try {
+      const res = await questionsService.getAllQuestions();
+      console.log(res);
+
+      if (res.success) {
+        getQuestions(res.data.data.questions);
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
 
   const handleTabClick = (id) => {
+    console.log(id);
+
     setActiveQuestionId(id);
   };
 
-  const activeQuestion = questions.find((q) => q.id === activeQuestionId);
-  console.log(activeQuestion);
+  const activeQuestion = questions?.find((q) => q._id === activeQuestionId);
+  console.log("active Question Id Q:", activeQuestionId);
+
+  if (!questions) return <div>Loading...</div>;
 
   return (
     <div className="container-fluid">

@@ -7,13 +7,20 @@ import {
   InputGroup,
   Button,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import medNovaLogo from "../assets/images/medNOVA_Logo.png";
 import bellIcon from "../assets/images/bell_icon.svg";
-import user from "../assets/images/user.jpeg";
+import userProfilePicture from "../assets/images/user.jpeg";
+import CustomButton from "./CustomButton";
+import { useAppContext } from "../context/AppProvider";
 
 function NavbarHome() {
+  const navigate = useNavigate();
+  const { user } = useAppContext();
+
+  console.log(user);
+
   return (
     <Navbar expand="lg" className="navbar-home border-bottom border-2">
       <Container fluid>
@@ -52,9 +59,28 @@ function NavbarHome() {
             </Nav.Item>
             <Nav.Item>
               <Nav.Link href="#" className="d-flex align-items-center">
-                <img src={user} alt="User" className="user avatar me-2" />
+                <img
+                  src={userProfilePicture}
+                  alt="User"
+                  className="user avatar me-2"
+                />
                 <span className="fw-500 user-name">Ashish Raj</span>
               </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              {/* Logount icon */}
+              <button
+                className="btn"
+                style={{ color: "#5f6368" }}
+                type="button"
+                onClick={() => {
+                  localStorage.clear();
+                  navigate("/");
+                }}
+              >
+                Logout &nbsp;
+                <i className="fa fa-sign-in" aria-hidden="true"></i>
+              </button>
             </Nav.Item>
           </Nav>
         </Navbar.Collapse>

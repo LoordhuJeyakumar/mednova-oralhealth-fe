@@ -4,9 +4,11 @@ import CustomTab from "./CustomTab";
 function SideBar({ questions, activeQuestionId, onTabClick }) {
   // Calculate the progress percentage based on the active question
   const progressPercentage =
-    ((questions.findIndex((q) => q.id === activeQuestionId) + 1) /
+    ((questions.findIndex((q) => q._id === activeQuestionId) + 1) /
       questions.length) *
     100;
+
+  console.log(activeQuestionId);
 
   return (
     <div className="p-3 sidebar " style={{ minHeight: "100vh" }}>
@@ -20,12 +22,13 @@ function SideBar({ questions, activeQuestionId, onTabClick }) {
         {/* Vertical tab */}
         <div className="col-10">
           <ul className="nav nav-pills flex-column gap-3">
-            {questions.map((question) => (
-              <li className="nav-item" key={question.id}>
+            {questions.map((question, index) => (
+              <li className="nav-item" key={question._id}>
                 <CustomTab
-                  id={question.id}
-                  name={question.name}
-                  isActive={activeQuestionId === question.id}
+                  id={question._id}
+                  text={index + 1}
+                  name={`Question ${index + 1}`}
+                  isActive={activeQuestionId === question._id}
                   onClick={onTabClick}
                 />
               </li>

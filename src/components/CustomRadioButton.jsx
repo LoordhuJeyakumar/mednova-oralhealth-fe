@@ -1,20 +1,22 @@
 import React from "react";
 
 const CustomRadioButton = ({ name, options, onChange }) => {
-  console.log(options);
+
 
   return (
     <div className="radio-group">
-      {options.map((option) => (
-        <label key={option.value} className="radio-label">
+      {options.map((option, index) => (
+        <label key={option._id} className="radio-label">
           <input
             type="radio"
             name={name}
-            value={option.value}
+            value={option.optionValue}
             onChange={onChange}
+            required
           />
-          <span className="option">{option.value}</span>
-          <span className="label-text">{option.answerText}</span>
+
+          <span className="option">{String.fromCharCode(65 + index)}</span>
+          <span className="label-text">{option.optionText}</span>
           <span className="custom-radio"></span>
         </label>
       ))}
