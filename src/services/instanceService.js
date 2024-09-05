@@ -9,6 +9,7 @@ const baseURL = isCloud
 
   const baseURL = import.meta.env.VITE_BASE_URL;
 
+console.log(baseURL);
 
 // define the instance
 const authInstance = axios.create({
