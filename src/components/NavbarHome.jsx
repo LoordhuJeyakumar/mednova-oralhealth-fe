@@ -76,6 +76,7 @@ function NavbarHome() {
                 onClick={() => {
                   localStorage.clear();
                   navigate("/login");
+                  window.location.reload();
                 }}
               >
                 Logout &nbsp;
