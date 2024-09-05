@@ -19,7 +19,7 @@ function NavbarHome() {
   const navigate = useNavigate();
   const { user } = useAppContext();
 
-  console.log(user);
+ 
 
   return (
     <Navbar expand="lg" className="navbar-home border-bottom border-2">
@@ -64,7 +64,7 @@ function NavbarHome() {
                   alt="User"
                   className="user avatar me-2"
                 />
-                <span className="fw-500 user-name">Ashish Raj</span>
+                <span className="fw-500 user-name">{user?.fullName}</span>
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
@@ -75,7 +75,7 @@ function NavbarHome() {
                 type="button"
                 onClick={() => {
                   localStorage.clear();
-                  navigate("/");
+                  navigate("/login");
                 }}
               >
                 Logout &nbsp;

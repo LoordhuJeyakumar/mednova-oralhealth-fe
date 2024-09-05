@@ -7,6 +7,8 @@ export const AppProvider = ({ children }) => {
   const [questions, setQuestions] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userResponseDetails, setUserResponseDetails] = useState(null);
+  const [userStatsFromServer, setUserStatsFromServer] = useState(null);
+  const [retry, setRetry] = useState(false); // State to track retry
 
   const setUserResponse = (responseDetails) => {
     setUserResponseDetails(responseDetails);
@@ -25,6 +27,9 @@ export const AppProvider = ({ children }) => {
     setUser(null);
     setIsAuthenticated(false);
   };
+  const setUserStats = (stats) => {
+    setUserStatsFromServer(stats);
+  };
 
   return (
     <AppContext.Provider
@@ -37,6 +42,10 @@ export const AppProvider = ({ children }) => {
         getQuestions,
         userResponseDetails,
         setUserResponse,
+        userStatsFromServer,
+        setUserStats,
+        retry,
+        setRetry,
       }}
     >
       {children}

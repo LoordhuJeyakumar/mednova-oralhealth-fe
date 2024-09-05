@@ -36,7 +36,7 @@ const Signup = () => {
         resetForm();
         setSubmitting(false);
       } else {
-        console.log(res.error.response.data.message);
+       
         setErrorMessage(res.error.response.data.message);
         toast.error(res.error.response.data.message);
         setSubmitting(false);

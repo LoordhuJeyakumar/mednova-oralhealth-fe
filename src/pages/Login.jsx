@@ -28,7 +28,7 @@ const Login = () => {
         email: values.email,
         password: values.password,
       });
-      console.log(res);
+
       if (res.success) {
         toast.success(res.data.data.message);
         setSuccessMessage(res.data.data.message);
@@ -99,7 +99,7 @@ const Login = () => {
                   className="btn btn-primary w-100"
                   style={{ backgroundColor: "#2B8C72", borderColor: "#2B8C72" }}
                 >
-                  Login
+                  Login &nbsp;
                   <i className="bi bi-box-arrow-in-right"></i>
                   {/* Loading */}
                   {isSubmitting && (

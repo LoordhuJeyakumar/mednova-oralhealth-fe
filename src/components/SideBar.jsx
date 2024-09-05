@@ -8,7 +8,7 @@ function SideBar({ questions, activeQuestionId, onTabClick }) {
       questions.length) *
     100;
 
-  console.log(activeQuestionId);
+ 
 
   return (
     <div className="p-3 sidebar " style={{ minHeight: "100vh" }}>
@@ -36,6 +36,7 @@ function SideBar({ questions, activeQuestionId, onTabClick }) {
             <li className="nav-item">
               <CustomTab
                 id={questions.length + 1}
+                text={questions.length + 1}
                 name={"Feedback"}
                 isActive={activeQuestionId === questions.length + 1}
                 onClick={onTabClick}

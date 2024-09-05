@@ -13,12 +13,12 @@ function Question({ question, questions, activeQuestionId, onTabClick }) {
   const questionFormRef = useRef(null);
   const [isValid, setIsValid] = useState(true);
   const [selectedOption, setSelectedOption] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const [selectedQuestionAnswerObj, setSelectedQuestionAnswerObj] =
     useState(null);
 
   const handleQuestionAnswer = (e) => {
-    console.log(e.target.value);
     setSelectedOption(e.target.value);
     const answerObj = {
       questionId: question._id,
@@ -31,9 +31,9 @@ function Question({ question, questions, activeQuestionId, onTabClick }) {
     };
     setSelectedQuestionAnswerObj(answerObj);
   };
-  console.log("active Question Id :", activeQuestionId);
 
   const handleAnswerSubmit = async (e) => {
+    setIsSubmitted(true);
     e.preventDefault();
     // Handle form submission logic here
     if (questionFormRef.current.checkValidity()) {
@@ -48,15 +48,12 @@ function Question({ question, questions, activeQuestionId, onTabClick }) {
         ).score,
       };
 
-      // Replace with your API request
-      console.log("Answer submitted:", answerObj);
-
       let data = selectedQuestionAnswerObj
         ? selectedQuestionAnswerObj
         : answerObj;
 
       const res = await userResponseService.submitResponse(data);
-      console.log(res);
+
       if (res.success) {
         toast.success(res.data.data.message);
         // Move to the next question
@@ -67,17 +64,21 @@ function Question({ question, questions, activeQuestionId, onTabClick }) {
 
         if (nextQuestion) {
           onTabClick(nextQuestion._id);
+          setIsSubmitted(false);
         } else {
           // If there are no more questions, move to the Feedback section
           onTabClick(questions.length + 1);
+          setIsSubmitted(false);
         }
       } else {
         toast.error(res.error.response.data.message);
+        setIsSubmitted(false);
       }
     } else {
       toast.error("Please select an option");
       setIsValid(false);
       questionFormRef.current.classList.add("was-validated");
+      setIsSubmitted(false);
     }
   };
 
@@ -126,7 +127,13 @@ function Question({ question, questions, activeQuestionId, onTabClick }) {
           </div>
         </div>
         <button type="submit" className="custom-btn-primary mt-1">
-          Submit
+          {isSubmitted ? (
+            <>
+              <i className="fa fa-spinner fa-spin"></i> Submitting...
+            </>
+          ) : (
+            "Submit"
+          )}
         </button>
       </form>
     </div>

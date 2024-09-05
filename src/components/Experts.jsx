@@ -5,8 +5,9 @@ import michael from "../assets/images/doctors/Dr._Michael_Johnson.jpg";
 import emily from "../assets/images/doctors/Dr._Emily_Davis.jpg";
 import david from "../assets/images/doctors/Dr._David_Wilson.jpg";
 import sarah from "../assets/images/doctors/Dr._Sarah_Thompson.jpg";
-import user from "../assets/images/user.jpeg";
+import userProfilePicture from "../assets/images/user.jpeg";
 import BreadcrumbNav from "./BreadcrumbNav";
+import { useAppContext } from "../context/AppProvider";
 
 function Experts() {
   const expertsObj = [
@@ -55,6 +56,8 @@ function Experts() {
     // Add more experts as needed
   ];
 
+  const { user } = useAppContext();
+
   return (
     <div>
       <div>
@@ -62,11 +65,15 @@ function Experts() {
       </div>
       <div className="row border-bottom border-2 pb-3 mb-4">
         <div className="col-md-2 col d-flex m-auto ">
-          <img src={user} alt="" className="user-profile-picture" />
+          <img
+            src={userProfilePicture}
+            alt=""
+            className="user-profile-picture"
+          />
         </div>
         <div className="col-10 ">
-          <div className="w-75">
-            <h5>Ashish Raj</h5>
+          <div className="ps-4 w-75">
+            <h5>{user?.fullName}</h5>
             <small>
               Lorem ipsum dolor sit amet consectetur. Suspendisse velit sit
               convallis venenatis aliquam cras id fermentum. Aliquam faucibus
